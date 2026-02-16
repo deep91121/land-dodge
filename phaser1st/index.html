@@ -6,19 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-<body style="margin:0; padding:0; background:black; text-align:center;">
+<body style="
+    margin:0;
+    background:black;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+">
 
 <!-- GAME CONTAINER -->
-<div id="game-container"></div>
+<div id="game-container" style="width:400px;"></div>
 
-<!-- AD CONTAINER -->
-<div style="margin-top:10px;">
+<!-- AD BANNER -->
+<div id="ad-banner" style="
+    min-height:100px;
+    margin-top:10px;
+    width:100%;
+    text-align:center;
+">
     <script async="async" data-cfasync="false"
         src="https://pl28727425.effectivegatecpm.com/88cbbd41d9df8e9c15240a0b1034349d/invoke.js">
     </script>
     <div id="container-88cbbd41d9df8e9c15240a0b1034349d"></div>
 </div>
 
+<!-- PHASER -->
 <script src="https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.min.js"></script>
 <script src="main.js"></script>
 
