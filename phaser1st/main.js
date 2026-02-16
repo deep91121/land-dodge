@@ -3,10 +3,10 @@ const config = {
     parent: "game-container",   // VERY IMPORTANT
     width: 400,
     height: 600,
-    scale: {
-        mode: Phaser.Scale.FIT,
-        autoCenter: Phaser.Scale.CENTER_BOTH
-    },
+   scale: {
+    mode: Phaser.Scale.FIT,
+    autoCenter: Phaser.Scale.CENTER_HORIZONTALLY
+},
     scene: {
         preload: preload,
         create: create,
@@ -162,4 +162,5 @@ function endGame() {
     alert("Game Over! Score: " + score);
     location.reload();
 }
+
 
