@@ -12,22 +12,58 @@
     display:flex;
     flex-direction:column;
     align-items:center;
+    height:100vh;
 ">
 
-<!-- GAME CONTAINER -->
-<div id="game-container" style="width:400px;"></div>
-
-<!-- AD BANNER -->
-<div id="ad-banner" style="
-    min-height:100px;
-    margin-top:10px;
+<!-- 🔝 TOP AD (468x60) -->
+<div style="
     width:100%;
-    text-align:center;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#111;
 ">
-    <script async="async" data-cfasync="false"
-        src="https://pl28727425.effectivegatecpm.com/88cbbd41d9df8e9c15240a0b1034349d/invoke.js">
-    </script>
-    <div id="container-88cbbd41d9df8e9c15240a0b1034349d"></div>
+
+<script>
+  atOptions = {
+    'key' : 'e5be293181ef7af46f131e9577880eb5',
+    'format' : 'iframe',
+    'height' : 60,
+    'width' : 468,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/e5be293181ef7af46f131e9577880eb5/invoke.js"></script>
+
+</div>
+
+<!-- 🎮 GAME CONTAINER -->
+<div id="game-container" style="
+    flex:1;
+    width:100%;
+    max-width:400px;
+"></div>
+
+<!-- 🔻 BOTTOM AD (320x50) -->
+<div style="
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#111;
+">
+
+<script>
+  atOptions = {
+    'key' : '4b69e0bd40cc2266227903d88f1f6cfe',
+    'format' : 'iframe',
+    'height' : 50,
+    'width' : 320,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/4b69e0bd40cc2266227903d88f1f6cfe/invoke.js"></script>
+
 </div>
 
 <!-- PHASER -->
