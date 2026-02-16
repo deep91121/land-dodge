@@ -162,7 +162,8 @@ function endGame() {
     gameOver = true;
     alert("Game Over! Score: " + score);
     location.reload();
-}
+} 
+
 
 
 
