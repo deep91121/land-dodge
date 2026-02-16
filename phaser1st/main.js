@@ -2,7 +2,7 @@ const config = {
     type: Phaser.AUTO,
     parent: "game-container",
     width: 400,
-    height: window.innerHeight,
+    height: window.innerHeight-50,
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_HORIZONTALLY
@@ -163,6 +163,7 @@ function endGame() {
     alert("Game Over! Score: " + score);
     location.reload();
 } 
+
 
 
 
