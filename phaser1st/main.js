@@ -1,18 +1,19 @@
 const config = {
     type: Phaser.AUTO,
-    parent: "game-container",   // VERY IMPORTANT
+    parent: "game-container",
     width: 400,
-    height: 600,
-   scale: {
-    mode: Phaser.Scale.FIT,
-    autoCenter: Phaser.Scale.CENTER_HORIZONTALLY
-},
+    height: window.innerHeight - 110,
+    scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_HORIZONTALLY
+    },
     scene: {
         preload: preload,
         create: create,
         update: update
     }
 };
+
 
 new Phaser.Game(config);
 
@@ -162,5 +163,6 @@ function endGame() {
     alert("Game Over! Score: " + score);
     location.reload();
 }
+
 
 
