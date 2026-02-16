@@ -1,8 +1,8 @@
 const config = {
     type: Phaser.AUTO,
+    parent: "game-container",   // VERY IMPORTANT
     width: 400,
     height: 600,
-    backgroundColor: "#000000",
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH
@@ -13,7 +13,6 @@ const config = {
         update: update
     }
 };
-
 
 new Phaser.Game(config);
 
@@ -163,3 +162,4 @@ function endGame() {
     alert("Game Over! Score: " + score);
     location.reload();
 }
+
