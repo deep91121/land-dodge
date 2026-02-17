@@ -23,9 +23,34 @@ let scoreText, highScoreText, nameText;
 let spawnDelay, spawnTimer;
 let playerName, highScores;
 let soundOn = true;
-
-// AUDIO
 let audioCtx = null;
+let deathCount = 0;
+
+// ================= ADS =================
+function loadAd() {
+    let adContainer = document.getElementById("ad-container");
+    if (!adContainer) return;
+
+    adContainer.innerHTML = "";
+
+    let script1 = document.createElement("script");
+    script1.innerHTML = `
+        atOptions = {
+            'key' : 'b3f7a4523ce308eda5d018385f87745c',
+            'format' : 'iframe',
+            'height' : 50,
+            'width' : 320,
+            'params' : {}
+        };
+    `;
+
+    let script2 = document.createElement("script");
+    script2.src = "https://www.highperformanceformat.com/b3f7a4523ce308eda5d018385f87745c/invoke.js";
+    script2.async = true;
+
+    adContainer.appendChild(script1);
+    adContainer.appendChild(script2);
+}
 
 // ================= NAME =================
 function getPlayerName() {
@@ -37,8 +62,7 @@ function getPlayerName() {
     }
 }
 
-// ================= AUDIO CORE =================
-
+// ================= AUDIO =================
 function initAudio() {
     if (!audioCtx) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -49,39 +73,20 @@ function tapSound() {
     if (!soundOn) return;
     initAudio();
 
-    const now = audioCtx.currentTime;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
 
-    // Soft bass pulse
-    const bass = audioCtx.createOscillator();
-    const bassGain = audioCtx.createGain();
+    osc.type = "triangle";
+    osc.frequency.value = 400 + speed * 15;
 
-    bass.type = "sine";
-    bass.frequency.value = 120 + speed * 5;
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
 
-    bass.connect(bassGain);
-    bassGain.connect(audioCtx.destination);
+    gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
 
-    bassGain.gain.setValueAtTime(0.06, now);
-    bassGain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
-
-    bass.start(now);
-    bass.stop(now + 0.25);
-
-    // Click tone (finger feedback)
-    const click = audioCtx.createOscillator();
-    const clickGain = audioCtx.createGain();
-
-    click.type = "triangle";
-    click.frequency.value = 900;
-
-    click.connect(clickGain);
-    clickGain.connect(audioCtx.destination);
-
-    clickGain.gain.setValueAtTime(0.03, now);
-    clickGain.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
-
-    click.start(now);
-    click.stop(now + 0.07);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.15);
 }
 
 function playCollect() {
@@ -133,6 +138,7 @@ function playCrash() {
 function create() {
 
     getPlayerName();
+    loadAd();
 
     gameOver = false;
     obstacles = [];
@@ -152,9 +158,8 @@ function create() {
     this.add.rectangle(200, 55, 360, 90, 0x181818)
         .setStrokeStyle(2, 0x333333);
 
-    // Player
-    player = this.add.rectangle(lanes[currentLane], 520, 45, 75, 0x00ffaa);
-    player.setStrokeStyle(2, 0xffffff);
+    // Player (Candle Base)
+    player = this.add.rectangle(lanes[currentLane], 520, 45, 75, 0x00ff00);
 
     cursors = this.input.keyboard.createCursorKeys();
 
@@ -176,22 +181,10 @@ function create() {
         fill: "#aaaaaa"
     }).setOrigin(0.5);
 
-    // Sound toggle
-    let soundBtn = this.add.text(370, 20, "🔊", {
-        fontSize: "20px"
-    }).setOrigin(0.5).setInteractive();
-
-    soundBtn.on("pointerdown", () => {
-        soundOn = !soundOn;
-        soundBtn.setText(soundOn ? "🔊" : "🔇");
-    });
-
-    // First tap unlock audio
     this.input.once("pointerdown", () => {
         initAudio();
     });
 
-    // Spawn
     spawnTimer = this.time.addEvent({
         delay: spawnDelay,
         callback: spawnObstacle,
@@ -199,7 +192,6 @@ function create() {
         loop: true
     });
 
-    // Difficulty
     this.time.addEvent({
         delay: 6000,
         callback: () => {
@@ -212,11 +204,10 @@ function create() {
         loop: true
     });
 
-    // Touch control
     this.input.on("pointerdown", (pointer) => {
         if (gameOver) return;
 
-        tapSound(); // 🔥 music tied to tap
+        tapSound();
 
         if (pointer.x < 200 && currentLane > 0) currentLane--;
         else if (pointer.x >= 200 && currentLane < 2) currentLane++;
@@ -306,16 +297,19 @@ function spawnObstacle() {
 }
 
 function checkCollision(obj) {
-    return (
-        Math.abs(obj.x - player.x) < 35 &&
-        Math.abs(obj.y - player.y) < 55
-    );
+    return Phaser.Math.Distance.Between(obj.x, obj.y, player.x, player.y) < 40;
 }
 
 function endGame() {
 
     gameOver = true;
     playCrash();
+
+    deathCount++;
+
+    if (deathCount % 3 === 0) {
+        loadAd();
+    }
 
     this.cameras.main.shake(200, 0.01);
 
