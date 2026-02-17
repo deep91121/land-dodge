@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Lane Dodge</title>
+    <title>Balloon Needle Game</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -16,14 +16,14 @@
     font-family:Arial;
 ">
 
-<!-- 🎮 GAME -->
+<!-- 🎮 GAME CONTAINER -->
 <div id="game-container" style="
     flex:1;
     width:100%;
     max-width:400px;
 "></div>
 
-<!-- 🔻 AD -->
+<!-- 🔻 BOTTOM BANNER AD (STATIC – SAFE) -->
 <div style="
     width:100%;
     display:flex;
@@ -32,9 +32,21 @@
     background:#111;
     height:50px;
 ">
-    <div id="ad-container"></div>
+
+<script>
+  atOptions = {
+    'key' : 'b3f7a4523ce308eda5d018385f87745c',
+    'format' : 'iframe',
+    'height' : 50,
+    'width' : 320,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/b3f7a4523ce308eda5d018385f87745c/invoke.js"></script>
+
 </div>
 
+<!-- PHASER -->
 <script src="https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.min.js"></script>
 <script src="main.js"></script>
 
