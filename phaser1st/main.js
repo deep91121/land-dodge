@@ -195,7 +195,7 @@ function create() {
     this.time.addEvent({
         delay: 6000,
         callback: () => {
-            if (speed < 8) speed += 0.5;
+            if (speed < 12) speed += 0.3;
             if (spawnDelay > 500) {
                 spawnDelay -= 50;
                 spawnTimer.delay = spawnDelay;
@@ -332,3 +332,4 @@ function endGame() {
         this.scene.restart();
     });
 }
+
