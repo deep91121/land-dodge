@@ -173,7 +173,7 @@ SettingsScene.prototype.create = function () {
             SETTINGS.difficulty = lvl;
             SETTINGS.maxSpeed =
                 lvl === "easy" ? 12 :
-                lvl === "medium" ? 15 : 18;
+                lvl === "medium" ? 18 : 23;
 
             localStorage.setItem("lane_settings", JSON.stringify(SETTINGS));
             playTone(700);
@@ -216,7 +216,7 @@ GameScene.prototype.create = function () {
 
     this.lanes = [100, 200, 300];
     this.currentLane = 1;
-    this.speed = 3;
+    this.speed = 5;
     this.score = 0;
     this.gameOver = false;
     this.obstacles = [];
@@ -339,3 +339,4 @@ GameScene.prototype.endGame = function () {
     createButton(this, 200, 420, "MENU",
         () => this.scene.start("MenuScene"));
 };
+
