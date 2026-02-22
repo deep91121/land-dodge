@@ -138,7 +138,7 @@ HelpScene.prototype = Object.create(Phaser.Scene.prototype);
 
 HelpScene.prototype.create = function () {
 
-    this.add.text(200, 80, "HOW TO PLAY",
+    this.add.text(200, 50, "HOW TO PLAY",
         { fontSize: "24px", fill: "#00ffaa" }).setOrigin(0.5);
 
     let helpText = `
@@ -243,7 +243,7 @@ SettingsScene.prototype.create = function () {
     // ================= DIFFICULTY =================
     this.add.text(200, 310, "DIFFICULTY", {
         fontSize: "16px",
-        fill: "#ffffff"
+        fill: "#00aa66"
     }).setOrigin(0.5);
 
     ["easy", "medium", "hard", "survival"].forEach((lvl, i) => {
@@ -268,24 +268,28 @@ SettingsScene.prototype.create = function () {
                 SETTINGS.startSpeed = 2.5;
                 SETTINGS.maxSpeed = 10;
                 SETTINGS.spawnDelay = 1200;
+                SETTINGS.speedin = 0.0015;
             }
 
             if (lvl === "medium") {
                 SETTINGS.startSpeed = 3.5;
                 SETTINGS.maxSpeed = 14;
                 SETTINGS.spawnDelay = 900;
+                SETTINGS.speedin = 0.001;
             }
 
             if (lvl === "hard") {
                 SETTINGS.startSpeed = 4.5;
                 SETTINGS.maxSpeed = 18;
                 SETTINGS.spawnDelay = 700;
+                SETTINGS.speedin = 0.001;
             }
 
             if (lvl === "survival") {
                 SETTINGS.startSpeed = 5.5;
                 SETTINGS.maxSpeed = 22;
                 SETTINGS.spawnDelay = 600;
+                SETTINGS.speedin =0.002;
                 SETTINGS.survivalMode = true;
             }
 
@@ -333,7 +337,7 @@ GameScene.prototype.create = function () {
     this.lanes = [100, 200, 300];
     this.currentLane = 1;
     this.speed = SETTINGS.startSpeed;
-    this.speedIncrease = SETTINGS.survivalMode ? 0.002 : 0.0005;
+    this.speedIncrease = SETTINGS.speedin;
     this.score = 0;
     this.gameOver = false;
     this.obstacles = [];
@@ -395,12 +399,12 @@ GameScene.prototype.spawnObstacle = function () {
     this.obstacles.push(obj);
 };
 
-GameScene.prototype.update = function () {
+GameScene.prototype.update = function (time, delta) {
 
     if (this.gameOver) return;
 
     if (this.speed < SETTINGS.maxSpeed) {
-        this.speed += this.speedIncrease;
+        this.speed += this.speedIncrease*delta/10;
     }
 
     for (let i = 0; i < this.obstacles.length; i++) {
